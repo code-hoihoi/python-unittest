@@ -9,10 +9,11 @@ class Blog:
         self.posts = []
 
     def __repr__(self):
-        pass
+        return f"{self.title} by {self.author} " \
+               f"({len(self.posts)} post{'s' if len(self.posts) > 1 else ''})"
 
-    def create_post(self):
-        pass
+    def create_post(self, post):
+        self.posts.append(post)
 
     def json(self):
         pass
