@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
+from post import Post
 
 
 class Blog:
@@ -13,10 +14,11 @@ class Blog:
                f"({len(self.posts)} post{'s' if len(self.posts) > 1 else ''})"
 
     def create_post(self, title, author):
-        self.posts.append({
-            'title': title,
-            'author': author
-        })
+        self.posts.append(Post(title, author))
 
     def json(self):
-        pass
+        return {
+            'title': self.title,
+            'author': self.author,
+            'posts': [post.json() for post in self.posts]
+        }
