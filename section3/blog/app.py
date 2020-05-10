@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 
+MENU_PROMPT = 'Enter "c" to create a blog, "l" to list blogs, "r" to read one, "p" to create a post, or "q" to quit: '
 blogs = dict()  # the reason not using {} is to avoid the confusion with set (set is also written as {}).
 
 
@@ -12,6 +13,7 @@ def menu():
     Eventually exit.
     """
     print_blogs()
+    selection = input(MENU_PROMPT)
 
 
 def print_blogs():
