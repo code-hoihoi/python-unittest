@@ -11,13 +11,13 @@ from post import Post
 
 class AppTest(unittest.TestCase):
     def test_menu_prints_prompt(self):
-        with patch('builtins.input') as mocked_input:
+        with patch('builtins.input', return_value='q') as mocked_input:
             app.menu()
-            mocked_input.assert_called_with(app.MENU_PROMPT)
+            mocked_input.assert_called_once_with(app.MENU_PROMPT)
 
     def test_menu_calls_print_blogs(self):
         with patch('app.print_blogs') as mocked_print_blogs:
-            # The following with clause is necessary in order to stop input function waiting for user input forever
+            # The following "with clause" is necessary in order to stop input function waiting for user input forever
             # The patch for builtins.input fakes the execution and pretends as if the user types 'q'
             with patch('builtins.input', return_value='q'):
                 app.menu()
@@ -28,7 +28,7 @@ class AppTest(unittest.TestCase):
         app.blogs = {'Test': b}
         with patch('builtins.print') as mocked_print:
             app.print_blogs()
-            mocked_print.assert_called_with(f"- {b}")
+            mocked_print.assert_called_with(f"- {b}\n")
 
     """
     def test_print_blogs_with_MagicMock(self):

@@ -32,7 +32,7 @@ def print_blogs():
     Print the available blogs.
     """
     for key, blog in blogs.items():
-        print(f"- {blog}")
+        print(f"- {blog}\n")
 
 
 def ask_create_blog():
