@@ -13,8 +13,8 @@ class Blog:
         return f"{self.title} by {self.author} " \
                f"({len(self.posts)} post{'s' if len(self.posts) > 1 else ''})"
 
-    def create_post(self, title, author):
-        self.posts.append(Post(title, author))
+    def create_post(self, title, content):
+        self.posts.append(Post(title, content))
 
     def json(self):
         return {

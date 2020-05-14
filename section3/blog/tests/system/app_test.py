@@ -68,3 +68,15 @@ class AppTest(unittest.TestCase):
         with patch('builtins.print') as mocked_print:
             app.print_one_post(p)
             mocked_print.assert_called_with(f"--- Test Post Title --- \n\n Test Post Content \n\n")
+
+    def test_ask_create_post(self):
+        b = Blog('MyNote', 'Nat')
+        b.create_post('Programming Tips', 'Be Lazy!!')
+        b.create_post('Work Tips', 'Work Hard...')
+        target_post = b.posts[0]
+
+        with patch('builtins.input') as mocked_input:
+            mocked_input.side_effect = ('MyNote', 'Programming Tips', 'Be Lazy!!')
+            with patch('blog.Blog.create_post') as mocked_create_post:
+                app.ask_create_post()
+                mocked_create_post.assert_called_with(target_post.title, target_post.content)

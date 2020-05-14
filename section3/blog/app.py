@@ -57,7 +57,11 @@ def print_one_post(post):
 
 
 def ask_create_post():
-    title = input('Enter the post\'s title: ')
-    content = input('Enter the post\'s content: ')
-    p = Post(title, content)
+    blog_name = input('Enter the blog title you want to make a post: ')
+    title = input('Enter the post title: ')
+    content = input('Enter the post content: ')
+    b = Blog(blog_name, "TesTes Author")
+    blogs[blog_name] = b
+
+    blogs[blog_name].create_post(title, content)
 
