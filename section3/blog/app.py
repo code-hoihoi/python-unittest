@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
 from blog import Blog
-from post import Post
 
 MENU_PROMPT = 'Enter "c" to create a blog, "l" to list blogs, "r" to read one, "p" to create a post, or "q" to quit: '
 blogs = dict()  # the reason not using {} is to avoid the confusion with set (An empty set is also initialized with {}).
@@ -26,6 +25,7 @@ def menu():
         elif selection == 'p':
             ask_create_post()
         selection = input(MENU_PROMPT)
+
 
 def print_blogs():
     """
@@ -64,4 +64,3 @@ def ask_create_post():
     blogs[blog_name] = b
 
     blogs[blog_name].create_post(title, content)
-

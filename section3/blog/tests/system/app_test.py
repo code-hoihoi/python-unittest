@@ -15,6 +15,13 @@ class AppTest(unittest.TestCase):
             app.menu()
             mocked_input.assert_called_once_with(app.MENU_PROMPT)
 
+    def test_menu_calls_create_blog(self):
+        with patch('builtins.input') as mocked_input:
+            mocked_input.side_effect = ('c', 'Test Blog Title', 'Test Author', 'q')
+            with patch('app.ask_create_blog') as mocked_ask_create_blog:
+                app.menu()
+                mocked_ask_create_blog.assert_called_once_with()
+
     def test_menu_calls_print_blogs(self):
         with patch('app.print_blogs') as mocked_print_blogs:
             # The following "with clause" is necessary in order to stop input function waiting for user input forever
