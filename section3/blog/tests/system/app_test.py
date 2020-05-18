@@ -23,6 +23,37 @@ class AppTest(unittest.TestCase):
                 mocked_ask_create_blog.assert_called_once_with()
 
     def test_menu_calls_print_blogs(self):
+        b = Blog('Test', 'Test Author')
+        app.blogs = {'Test': b}
+
+        with patch('builtins.input', return_value='l') as mocked_input:
+            with patch('app.print_blogs') as mocked_print_blogs:
+                app.menu()
+                mocked_print_blogs.assert_called_once_with()
+
+    def test_menu_calls_ask_read_blog(self):
+        b = Blog('Test', 'Test Author')
+        app.blogs = {'Test': b}
+
+        with patch('builtins.input') as mocked_input:
+            mocked_input.side_effect = ('r', 'Test Title', 'q')
+            with patch('app.ask_read_blog') as mocked_ask_read_blog:
+                app.menu()
+                mocked_ask_read_blog.assert_called_once_with()
+
+    def test_menu_calls_ask_create_post(self):
+        b = Blog('MyNote', 'Nat')
+        b.create_post('Programming Tips', 'Be Lazy!!')
+        b.create_post('Work Tips', 'Work Hard...')
+        target_post = b.posts[0]
+
+        with patch('builtins.input') as mocked_input:
+            mocked_input.side_effect = ('p', 'MyNote', 'Programming Tips', 'Be Lazy!!', 'q')
+            with patch('app.ask_create_post') as mocked_ask_create_post:
+                app.menu()
+                mocked_ask_create_post.assert_called_once_with()
+
+    def test_menu_calls_print_blogs(self):
         with patch('app.print_blogs') as mocked_print_blogs:
             # The following "with clause" is necessary in order to stop input function waiting for user input forever
             # The patch for builtins.input fakes the execution and pretends as if the user types 'q'
