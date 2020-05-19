@@ -26,10 +26,11 @@ class AppTest(unittest.TestCase):
         b = Blog('Test', 'Test Author')
         app.blogs = {'Test': b}
 
-        with patch('builtins.input', return_value='l') as mocked_input:
+        with patch('builtins.input') as mocked_input:
+            mocked_input.side_effect = ('l', 'q')
             with patch('app.print_blogs') as mocked_print_blogs:
                 app.menu()
-                mocked_print_blogs.assert_called_once_with()
+                mocked_print_blogs.assert_called_with()
 
     def test_menu_calls_ask_read_blog(self):
         b = Blog('Test', 'Test Author')
@@ -53,7 +54,7 @@ class AppTest(unittest.TestCase):
                 app.menu()
                 mocked_ask_create_post.assert_called_once_with()
 
-    def test_menu_calls_print_blogs(self):
+    def test_menu_initial_calls_print_blogs(self):
         with patch('app.print_blogs') as mocked_print_blogs:
             # The following "with clause" is necessary in order to stop input function waiting for user input forever
             # The patch for builtins.input fakes the execution and pretends as if the user types 'q'
@@ -87,7 +88,7 @@ class AppTest(unittest.TestCase):
     def test_ask_read_blog(self):
         b = Blog('Test', 'Test Author')
         app.blogs = {'Test': b}
-        with patch('builtins.input', return_value='Test') as mocked_input:
+        with patch('builtins.input', return_value='Test'):
             with patch('app.print_posts') as mocked_print_posts:
                 app.ask_read_blog()
                 mocked_print_posts.assert_called_with(b)
