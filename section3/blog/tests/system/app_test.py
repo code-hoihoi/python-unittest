@@ -10,6 +10,16 @@ from post import Post
 
 
 class AppTest(unittest.TestCase):
+    # This method is called at the beginning of every test method
+    def setUp(self) -> None:
+        b = Blog('Test', 'Test Author')
+        app.blogs = {'Test': b}
+        print('Start Test: setUp is executed...')
+
+    # This method is called at the end of every test method
+    def tearDown(self) -> None:
+        print('End Test: tearDown is executed...')
+
     def test_menu_prints_prompt(self):
         with patch('builtins.input', return_value='q') as mocked_input:
             app.menu()
@@ -23,9 +33,6 @@ class AppTest(unittest.TestCase):
                 mocked_ask_create_blog.assert_called_once_with()
 
     def test_menu_calls_print_blogs(self):
-        b = Blog('Test', 'Test Author')
-        app.blogs = {'Test': b}
-
         with patch('builtins.input') as mocked_input:
             mocked_input.side_effect = ('l', 'q')
             with patch('app.print_blogs') as mocked_print_blogs:
@@ -33,9 +40,6 @@ class AppTest(unittest.TestCase):
                 mocked_print_blogs.assert_called_with()
 
     def test_menu_calls_ask_read_blog(self):
-        b = Blog('Test', 'Test Author')
-        app.blogs = {'Test': b}
-
         with patch('builtins.input') as mocked_input:
             mocked_input.side_effect = ('r', 'Test Title', 'q')
             with patch('app.ask_read_blog') as mocked_ask_read_blog:
@@ -63,11 +67,9 @@ class AppTest(unittest.TestCase):
                 mocked_print_blogs.assert_called_once_with()
 
     def test_print_blogs(self):
-        b = Blog('Test', 'Test Author')
-        app.blogs = {'Test': b}
         with patch('builtins.print') as mocked_print:
             app.print_blogs()
-            mocked_print.assert_called_with(f"- {b}\n")
+            mocked_print.assert_called_with(f"- {app.blogs['Test']}\n")
 
     """
     def test_print_blogs_with_MagicMock(self):
@@ -86,12 +88,10 @@ class AppTest(unittest.TestCase):
             self.assertIsNotNone(app.blogs.get('Test'))
 
     def test_ask_read_blog(self):
-        b = Blog('Test', 'Test Author')
-        app.blogs = {'Test': b}
         with patch('builtins.input', return_value='Test'):
             with patch('app.print_posts') as mocked_print_posts:
                 app.ask_read_blog()
-                mocked_print_posts.assert_called_with(b)
+                mocked_print_posts.assert_called_with(app.blogs['Test'])
 
     def test_print_posts(self):
         b = Blog('Test', 'Test Author')
