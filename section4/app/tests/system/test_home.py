@@ -1,11 +1,11 @@
-from unittest import TestCase
-from tests.app import app
 import json
 
+from tests.system.base_test import BaseTest
 
-class TestHome(TestCase):
+
+class TestHome(BaseTest):  # Notice TestCase inheritance is switched to BaseTest inheritance
     def test_home(self):
-        with app.test_client() as c:
+        with self.app() as c:
             response = c.get('/')
             print(response.data)
 
